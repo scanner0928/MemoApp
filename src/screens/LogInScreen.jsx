@@ -4,6 +4,7 @@ import {
   Text,
   TextInput,
   StyleSheet,
+  TouchableOpacity,
 } from 'react-native';
 
 import AppBar from '../components/AppBar';
@@ -25,9 +26,11 @@ export default function LogInScreen() {
           <Text style={styles.footerText}>
             Not registerd?
           </Text>
-          <Text style={styles.footerLink}>
-            Sign up here!
-          </Text>
+          <TouchableOpacity>
+            <Text style={styles.footerLink}>
+              Sign up here!
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
