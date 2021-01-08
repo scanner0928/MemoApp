@@ -1,18 +1,24 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { string } from 'prop-types';
+import { View, StyleSheet } from 'react-native';
+import { string, shape } from 'prop-types';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 export default function CircleButton(props) {
-  const { children } = props;
+  const { style, name } = props;
   return (
-    <View style={styles.circleButton}>
-      <Text style={styles.circleButtonLabel}>{children}</Text>
+    <View style={[styles.circleButton, style]}>
+      <FontAwesome5 name={name} size={24} color="white" />
     </View>
   );
 }
 
 CircleButton.propTypes = {
-  children: string.isRequired,
+  name: string.isRequired,
+  style: shape(),
+};
+
+CircleButton.defaultProps = {
+  style: null,
 };
 
 const styles = StyleSheet.create({
