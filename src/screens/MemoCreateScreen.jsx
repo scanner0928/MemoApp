@@ -4,6 +4,7 @@ import {
   TextInput,
   StyleSheet,
   KeyboardAvoidingView,
+  Alert,
 } from 'react-native';
 
 import firebase from 'firebase';
@@ -25,12 +26,11 @@ export default function MemoCreateScreen(props) {
         bodyText,
         updatedAt: new Date(),
       })
-      .then((docRef) => {
-        console.log('Created', docRef.id);
+      .then(() => {
         navigation.goBack();
       })
       .catch(() => {
-        console.log('Error');
+        Alert.alert('ERROR!');
       });
   }
   return (
