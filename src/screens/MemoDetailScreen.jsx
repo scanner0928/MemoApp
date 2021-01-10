@@ -59,7 +59,10 @@ export default function MemoDetailScreen(props) {
         }}
         name="feather-alt"
         onPress={() => {
-          navigation.navigate('MemoEdit');
+          navigation.navigate('MemoEdit', {
+            id: memo.id,
+            bodyText: memo.bodyText,
+          });
         }}
       />
     </View>
