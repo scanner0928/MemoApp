@@ -1,14 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Alert } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Alert,
+} from 'react-native';
 import firebase from 'firebase';
 
 import MemoList from '../components/MemoList';
 import CircleButton from '../components/CircleButton';
 import LogOutButton from '../components/LogOutButton';
+import Loading from '../components/Loading';
 
 export default function MemoListScreen(props) {
   const { navigation } = props;
   const [memos, setMemos] = useState([]);
+
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     navigation.setOptions({
@@ -21,6 +29,7 @@ export default function MemoListScreen(props) {
     const { currentUser } = firebase.auth();
     let unsubscribe = () => {};
     if (currentUser) {
+      setLoading(true);
       const ref = db
         .collection(`users/${currentUser.uid}/memos`)
         .orderBy('updatedAt', 'desc');
@@ -37,9 +46,11 @@ export default function MemoListScreen(props) {
             });
           });
           setMemos(userMemos);
+          setLoading(false);
         },
         (error) => {
           console.log(error);
+          setLoading(false);
           Alert.alert('データの読み込みに失敗しました。');
         }
       );
@@ -47,6 +58,14 @@ export default function MemoListScreen(props) {
     return unsubscribe;
   }, []);
 
+  if (memos.length === 0) {
+    return (
+      <View style={{ flex: 1 }}>
+        <Loading isLoading={isLoading} />
+        <Text>メモはありません。</Text>
+      </View>
+    );
+  }
   return (
     <View style={styles.container}>
       <MemoList memos={memos} />
